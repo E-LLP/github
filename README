@@ -1,0 +1,14 @@
+github
+======
+
+A simple script to bring a git repository to github.
+
+Add your password to the [github] section of your
+global .gitconfig:
+
+	[github]
+	user=foobar
+	token=barfoo
+	password=barbarfoo
+
+Then go into a git repository and run this script.

@@ -1,0 +1,45 @@
+#!/usr/bin/perl
+
+use 5.010;
+use strict;
+use warnings;
+
+use Config::Tiny;
+use Data::Dumper;
+use Mojo::JSON;
+use Mojo::UserAgent;
+use Path::Abstract qw/--no_0_093_warning/;
+
+my $config = Config::Tiny->new;
+my $configfile = $ENV{"HOME"} . "/.gitconfig";
+$config = Config::Tiny->read( $configfile );
+my $USERNAME = $config->{"github"}->{"user"};
+my $PASSWORD = $config->{"github"}->{"password"};
+
+my $ua;
+my $json;
+my $message;
+my $result;
+
+my $reponame = Path::Abstract->new(qx/pwd/)->last;
+chomp($reponame);
+
+$ua = Mojo::UserAgent->new;
+$ua->ioloop->connect_timeout(60);
+
+$json = Mojo::JSON->new;
+$message = $json->encode({name => $reponame});
+
+$result =
+  $ua->post('https://'
+    . $USERNAME . ":"
+    . $PASSWORD
+    . '@api.github.com/user/repos' => $message)->res->json;
+
+my $command =
+    "git remote add origin git\@github.com:"
+  . $USERNAME . "/"
+  . $reponame . ".git";
+say `$command`;
+say `git push -u origin master`;
+
