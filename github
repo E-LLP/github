@@ -7,20 +7,21 @@ use warnings;
 use Config::Tiny;
 use Mojo::JSON;
 use Mojo::UserAgent;
-use Path::Abstract qw/--no_0_093_warning/;
+use File::Basename;
 
-my $config = Config::Tiny->new;
+my $config     = Config::Tiny->new;
 my $configfile = $ENV{"HOME"} . "/.gitconfig";
-$config = Config::Tiny->read( $configfile );
+$config = Config::Tiny->read($configfile);
 my $USERNAME = $config->{"github"}->{"user"};
 my $PASSWORD = $config->{"github"}->{"password"};
 
+my $reponame;
 my $ua;
 my $json;
 my $message;
 my $result;
 
-my $reponame = Path::Abstract->new(qx/pwd/)->last;
+$reponame = basename(qx/pwd/);
 chomp($reponame);
 
 $ua = Mojo::UserAgent->new;
