@@ -18,7 +18,6 @@ Dependencies
 
 Config::Tiny
 Mojolicious
-Path::Abstract 
 
 License
 -------
