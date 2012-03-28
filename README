@@ -11,7 +11,7 @@ global .gitconfig:
 	token=barfoo
 	password=barbarfoo
 
-Then go into a git repository and run this script.
+Then change your working directory to a git repository and run this script.
 
 Dependencies
 ------------
