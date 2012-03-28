@@ -38,7 +38,6 @@ $reponame = basename(qx/pwd/);
 chomp($reponame);
 
 $ua = Mojo::UserAgent->new;
-$ua->ioloop->connect_timeout(60);
 
 $json = Mojo::JSON->new;
 $message = $json->encode({name => $reponame});
